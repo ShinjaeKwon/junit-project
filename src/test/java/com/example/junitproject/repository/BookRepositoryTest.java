@@ -23,6 +23,8 @@ import com.example.junitproject.domain.Book;
  * 1. 테스트 메서드는 순서 보장이 안된다 - Order() 어노테이션 사용시 순서 제어 가능
  * 2. 테스트 메서드가 하나 실행 후 종료하면 데이터가 초기화된다. - Transactional() 어노테이션으로 인해 초기화
  * 2-1. primary key auto_increment -> 이 값은 초기화 되지 않는다.
+ * 3. Junit 에서 테스트 시, 메서드 실행(트랜잭션 시작) -> 종료(트랜잭션 종료) -> Rollback 이 기본 프로세스
+ * 4. 실제 서버 테스트 시에는 Id 관련 조회 제거(DB 삭제가 일어나면 안된다)
  */
 @DataJpaTest
 public class BookRepositoryTest {
@@ -109,17 +111,17 @@ public class BookRepositoryTest {
 	@DisplayName("책 수정 테스트")
 	@Sql("classpath:db/tableInit.sql")
 	@Test
-	void givenChangeBookInfo_whenUpdate_thenReturnUpdatedBook(){
-	    //given
+	void givenChangeBookInfo_whenUpdate_thenReturnUpdatedBook() {
+		//given
 		Long id = 1L;
 		String title = "junit5";
 		String author = "sjk";
 		Book book = new Book(id, title, author);
 
-	    //when
+		//when
 		Book persistentBook = bookRepository.save(book);
 
-	    //then
+		//then
 		Assertions.assertEquals(id, persistentBook.getId());
 		Assertions.assertEquals(title, persistentBook.getTitle());
 		Assertions.assertEquals(author, persistentBook.getAuthor());
