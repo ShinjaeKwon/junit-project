@@ -106,4 +106,23 @@ public class BookRepositoryTest {
 		Assertions.assertFalse(bookRepository.findById(id).isPresent());
 	}
 
+	@DisplayName("책 수정 테스트")
+	@Sql("classpath:db/tableInit.sql")
+	@Test
+	void givenChangeBookInfo_whenUpdate_thenReturnUpdatedBook(){
+	    //given
+		Long id = 1L;
+		String title = "junit5";
+		String author = "sjk";
+		Book book = new Book(id, title, author);
+
+	    //when
+		Book persistentBook = bookRepository.save(book);
+
+	    //then
+		Assertions.assertEquals(id, persistentBook.getId());
+		Assertions.assertEquals(title, persistentBook.getTitle());
+		Assertions.assertEquals(author, persistentBook.getAuthor());
+	}
+
 }
