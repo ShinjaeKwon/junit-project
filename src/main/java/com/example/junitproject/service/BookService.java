@@ -11,6 +11,7 @@ import com.example.junitproject.controller.dto.request.BookUpdateRequest;
 import com.example.junitproject.controller.dto.response.BookResponse;
 import com.example.junitproject.domain.Book;
 import com.example.junitproject.repository.BookRepository;
+import com.example.junitproject.util.MailSender;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,10 +20,17 @@ import lombok.RequiredArgsConstructor;
 public class BookService {
 
 	private final BookRepository bookRepository;
+	private final MailSender mailSender;
 
 	@Transactional(rollbackFor = RuntimeException.class)
 	public BookResponse registerBook(BookSaveRequest request) {
-		return new BookResponse().from(bookRepository.save(request.toEntity()));
+		Book book = bookRepository.save(request.toEntity());
+		if (book != null) {
+			if (!mailSender.send()) {
+				throw new RuntimeException("메일이 전송되지 않았습니다.");
+			}
+		}
+		return new BookResponse().from(book);
 	}
 
 	@Transactional(readOnly = true)
