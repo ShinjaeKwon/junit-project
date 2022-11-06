@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.junitproject.controller.dto.request.BookSaveRequest;
+import com.example.junitproject.controller.dto.request.BookUpdateRequest;
 import com.example.junitproject.controller.dto.response.BookResponse;
+import com.example.junitproject.domain.Book;
 import com.example.junitproject.repository.BookRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -39,6 +41,13 @@ public class BookService {
 	@Transactional(rollbackFor = RuntimeException.class)
 	public void removeBook(Long id) {
 		bookRepository.deleteById(id);
+	}
+
+	public BookResponse updateBook(BookUpdateRequest request) {
+		Book book = bookRepository.findById(request.getId())
+			.orElseThrow(() -> new IllegalArgumentException("책 ID 가 존재하지 않습니다."));
+		book.update(request.getTitle(), request.getAuthor());
+		return new BookResponse().from(book);
 	}
 
 }
