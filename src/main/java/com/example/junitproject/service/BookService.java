@@ -23,10 +23,17 @@ public class BookService {
 		return new BookResponse().from(bookRepository.save(request.toEntity()));
 	}
 
+	@Transactional(readOnly = true)
 	public List<BookResponse> getBookList() {
 		return bookRepository.findAll().stream()
 			.map(new BookResponse()::from)
 			.collect(Collectors.toList());
+	}
+
+	@Transactional(readOnly = true)
+	public BookResponse getBook(Long id) {
+		return new BookResponse().from(bookRepository.findById(id)
+			.orElseThrow(() -> new IllegalArgumentException("책 ID 가 존재하지 않습니다.")));
 	}
 
 }
