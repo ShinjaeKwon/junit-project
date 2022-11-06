@@ -1,5 +1,8 @@
 package com.example.junitproject.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +21,12 @@ public class BookService {
 	@Transactional(rollbackFor = RuntimeException.class)
 	public BookResponse registerBook(BookSaveRequest request) {
 		return new BookResponse().from(bookRepository.save(request.toEntity()));
+	}
+
+	public List<BookResponse> getBookList() {
+		return bookRepository.findAll().stream()
+			.map(new BookResponse()::from)
+			.collect(Collectors.toList());
 	}
 
 }
