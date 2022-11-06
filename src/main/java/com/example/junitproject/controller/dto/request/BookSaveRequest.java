@@ -3,9 +3,9 @@ package com.example.junitproject.controller.dto.request;
 import com.example.junitproject.domain.Book;
 
 import lombok.AllArgsConstructor;
-import lombok.Setter;
+import lombok.Getter;
 
-@Setter
+@Getter
 @AllArgsConstructor
 public class BookSaveRequest {
 
