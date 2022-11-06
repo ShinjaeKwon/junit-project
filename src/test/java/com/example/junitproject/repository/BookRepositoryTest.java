@@ -95,7 +95,7 @@ public class BookRepositoryTest {
 	@DisplayName("책 삭제 테스트")
 	@Sql("classpath:db/tableInit.sql")
 	@Test
-	void given_when_then() {
+	void givenBookId_whenDeleteById_thenNotPresentByBookId() {
 		//given
 		Long id = 1L;
 
