@@ -36,4 +36,9 @@ public class BookService {
 			.orElseThrow(() -> new IllegalArgumentException("책 ID 가 존재하지 않습니다.")));
 	}
 
+	@Transactional(rollbackFor = RuntimeException.class)
+	public void removeBook(Long id) {
+		bookRepository.deleteById(id);
+	}
+
 }
