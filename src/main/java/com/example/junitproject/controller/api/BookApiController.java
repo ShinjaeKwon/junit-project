@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.junitproject.controller.dto.request.BookSaveRequest;
+import com.example.junitproject.controller.dto.request.BookRequest;
 import com.example.junitproject.controller.dto.response.Response;
 import com.example.junitproject.service.BookService;
 
@@ -29,7 +30,7 @@ public class BookApiController {
 	private final BookService bookService;
 
 	@PostMapping("/api/v1/book")
-	public ResponseEntity<?> saveBook(@RequestBody @Valid BookSaveRequest request, BindingResult bindingResult) {
+	public ResponseEntity<?> saveBook(@RequestBody @Valid BookRequest request, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			throw new RuntimeException(getErrors(bindingResult).toString());
 		}
@@ -54,6 +55,16 @@ public class BookApiController {
 		bookService.removeBook(id);
 		return new ResponseEntity<>(getSuccessResponse("책 삭제하기 성공", null),
 			HttpStatus.OK);
+	}
+
+	@PutMapping("/api/v1/book/{id}")
+	public ResponseEntity<?> updateBook(@PathVariable Long id, @RequestBody @Valid BookRequest request,
+		BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			throw new RuntimeException(getErrors(bindingResult).toString());
+		}
+		return new ResponseEntity<>(getSuccessResponse("책 수정하기 성공", bookService.updateBook(id, request))
+			, HttpStatus.OK);
 	}
 
 	private static Map<String, String> getErrors(BindingResult bindingResult) {
