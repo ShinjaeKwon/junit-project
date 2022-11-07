@@ -32,7 +32,7 @@ public class BookServiceTest {
 
 	@DisplayName("책 등록하기 테스트")
 	@Test
-	void givenBookInfo_whenSave_thenNotThrow() {
+	void givenBookInfo_whenSave_thenReturnBookResponse() {
 		//given
 		BookSaveRequest request = new BookSaveRequest("junit", "sjk");
 
@@ -50,7 +50,7 @@ public class BookServiceTest {
 
 	@DisplayName("책 목록 보기 테스트")
 	@Test
-	void given_when_then() {
+	void givenNone_whenGetBookList_thenReturnResponseList() {
 		//given
 
 		//stub
