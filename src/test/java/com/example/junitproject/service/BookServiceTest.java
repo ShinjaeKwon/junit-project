@@ -1,38 +1,48 @@
 package com.example.junitproject.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.junitproject.controller.dto.request.BookSaveRequest;
 import com.example.junitproject.controller.dto.response.BookResponse;
 import com.example.junitproject.repository.BookRepository;
-import com.example.junitproject.util.MailSenderStub;
+import com.example.junitproject.util.MailSender;
 
-@DataJpaTest
+@ExtendWith(MockitoExtension.class)
 public class BookServiceTest {
 
-	@Autowired
+	@InjectMocks
+	private BookService bookService;
+
+	@Mock
 	private BookRepository bookRepository;
+
+	@Mock
+	private MailSender mailSender;
 
 	@DisplayName("책 등록하기 테스트")
 	@Test
-	void given_when_then() {
+	void givenBookInfo_whenSave_thenNotThrow() {
 		//given
 		BookSaveRequest request = new BookSaveRequest("junit", "sjk");
 
 		//stub
-		MailSenderStub mailSenderStub = new MailSenderStub();
+		Mockito.when(bookRepository.save(ArgumentMatchers.any())).thenReturn(request.toEntity());
+		Mockito.when(mailSender.send()).thenReturn(true);
 
 		//when
-		BookService bookService = new BookService(bookRepository, mailSenderStub);
 		BookResponse bookResponse = bookService.registerBook(request);
 
 		//then
-		Assertions.assertEquals(request.getTitle(), bookResponse.getTitle());
-		Assertions.assertEquals(request.getAuthor(), bookResponse.getAuthor());
+		Assertions.assertThat(request.getTitle()).isEqualTo(bookResponse.getTitle());
+		Assertions.assertThat(request.getAuthor()).isEqualTo(bookResponse.getAuthor());
 	}
 
 }
