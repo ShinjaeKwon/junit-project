@@ -2,13 +2,14 @@ package com.example.junitproject.controller.dto.request;
 
 import com.example.junitproject.domain.Book;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class BookUpdateRequest {
 
 	private Long id;

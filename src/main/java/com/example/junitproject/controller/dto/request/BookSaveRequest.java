@@ -2,11 +2,12 @@ package com.example.junitproject.controller.dto.request;
 
 import com.example.junitproject.domain.Book;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class BookSaveRequest {
 
 	private String title;
