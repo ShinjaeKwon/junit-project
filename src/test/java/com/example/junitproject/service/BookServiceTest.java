@@ -1,6 +1,7 @@
 package com.example.junitproject.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -67,6 +68,24 @@ public class BookServiceTest {
 		Assertions.assertThat(bookResponseList.get(0).getAuthor()).isEqualTo("sjk");
 		Assertions.assertThat(bookResponseList.get(1).getTitle()).isEqualTo("spring");
 		Assertions.assertThat(bookResponseList.get(1).getAuthor()).isEqualTo("shin");
+	}
+
+	@DisplayName("책 한건 보기 테스트")
+	@Test
+	void givenBookInfo_whenGetBook_thenReturnBookResponse() {
+		//given
+		Long id = 1L;
+		Book book = new Book(1L, "junit", "sjk");
+
+		//stub
+		Mockito.when(bookRepository.findById(id)).thenReturn(Optional.of(book));
+
+		//when
+		BookResponse bookResponse = bookService.getBook(id);
+
+		//then
+		Assertions.assertThat(bookResponse.getTitle()).isEqualTo(book.getTitle());
+		Assertions.assertThat(bookResponse.getAuthor()).isEqualTo(book.getAuthor());
 	}
 
 }
