@@ -25,25 +25,25 @@ public class BookService {
 	@Transactional(rollbackFor = RuntimeException.class)
 	public BookResponse registerBook(BookSaveRequest request) {
 		Book book = bookRepository.save(request.toEntity());
-		if (book != null) {
-			if (!mailSender.send()) {
-				throw new RuntimeException("메일이 전송되지 않았습니다.");
-			}
+		if (!mailSender.send()) {
+			throw new RuntimeException("메일이 전송되지 않았습니다.");
 		}
-		return new BookResponse().from(book);
+
+		return book.from();
 	}
 
 	@Transactional(readOnly = true)
 	public List<BookResponse> getBookList() {
 		return bookRepository.findAll().stream()
-			.map(new BookResponse()::from)
+			.map(Book::from)
 			.collect(Collectors.toList());
 	}
 
 	@Transactional(readOnly = true)
 	public BookResponse getBook(Long id) {
-		return new BookResponse().from(bookRepository.findById(id)
-			.orElseThrow(() -> new IllegalArgumentException("책 ID 가 존재하지 않습니다.")));
+		Book book = bookRepository.findById(id)
+			.orElseThrow(() -> new IllegalArgumentException("책 ID 가 존재하지 않습니다."));
+		return book.from();
 	}
 
 	@Transactional(rollbackFor = RuntimeException.class)
@@ -55,7 +55,7 @@ public class BookService {
 		Book book = bookRepository.findById(request.getId())
 			.orElseThrow(() -> new IllegalArgumentException("책 ID 가 존재하지 않습니다."));
 		book.update(request.getTitle(), request.getAuthor());
-		return new BookResponse().from(book);
+		return book.from();
 	}
 
 }
