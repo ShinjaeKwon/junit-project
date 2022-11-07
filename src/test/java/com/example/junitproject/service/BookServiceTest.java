@@ -13,8 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.example.junitproject.controller.dto.request.BookSaveRequest;
-import com.example.junitproject.controller.dto.request.BookUpdateRequest;
+import com.example.junitproject.controller.dto.request.BookRequest;
 import com.example.junitproject.controller.dto.response.BookListResponse;
 import com.example.junitproject.controller.dto.response.BookResponse;
 import com.example.junitproject.domain.Book;
@@ -37,7 +36,7 @@ public class BookServiceTest {
 	@Test
 	void givenBookInfo_whenSave_thenReturnBookResponse() {
 		//given
-		BookSaveRequest request = BookSaveRequest.of("junit", "sjk");
+		BookRequest request = BookRequest.of("junit", "sjk");
 
 		//stub
 		Mockito.when(bookRepository.save(ArgumentMatchers.any())).thenReturn(request.toEntity());
@@ -94,14 +93,14 @@ public class BookServiceTest {
 	@Test
 	void given_when_then() {
 		//given
-		BookUpdateRequest request = BookUpdateRequest.of(1L, "spring", "shin");
+		BookRequest request = BookRequest.of("spring", "shin");
 
 		//stub
 		Book book = new Book(1L, "junit", "sjk");
 		Mockito.when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
 
 		//when
-		BookResponse bookResponse = bookService.updateBook(request);
+		BookResponse bookResponse = bookService.updateBook(1L, request);
 
 		//then
 		Assertions.assertThat(bookResponse.getTitle()).isEqualTo(request.getTitle());
