@@ -67,7 +67,6 @@ public class BookServiceTest {
 		Assertions.assertThat(bookResponseList.get(0).getAuthor()).isEqualTo("sjk");
 		Assertions.assertThat(bookResponseList.get(1).getTitle()).isEqualTo("spring");
 		Assertions.assertThat(bookResponseList.get(1).getAuthor()).isEqualTo("shin");
-
 	}
 
 }
