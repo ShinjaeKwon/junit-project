@@ -5,9 +5,11 @@ import com.example.junitproject.domain.Book;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class BookSaveRequest {
 
 	private String title;
