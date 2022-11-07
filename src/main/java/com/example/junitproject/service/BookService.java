@@ -5,8 +5,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.junitproject.controller.dto.request.BookSaveRequest;
-import com.example.junitproject.controller.dto.request.BookUpdateRequest;
+import com.example.junitproject.controller.dto.request.BookRequest;
 import com.example.junitproject.controller.dto.response.BookListResponse;
 import com.example.junitproject.controller.dto.response.BookResponse;
 import com.example.junitproject.domain.Book;
@@ -23,7 +22,7 @@ public class BookService {
 	private final MailSender mailSender;
 
 	@Transactional(rollbackFor = RuntimeException.class)
-	public BookResponse registerBook(BookSaveRequest request) {
+	public BookResponse registerBook(BookRequest request) {
 		Book book = bookRepository.save(request.toEntity());
 		if (!mailSender.send()) {
 			throw new RuntimeException("메일이 전송되지 않았습니다.");
@@ -51,8 +50,8 @@ public class BookService {
 		bookRepository.deleteById(id);
 	}
 
-	public BookResponse updateBook(BookUpdateRequest request) {
-		Book book = bookRepository.findById(request.getId())
+	public BookResponse updateBook(Long bookId, BookRequest request) {
+		Book book = bookRepository.findById(bookId)
 			.orElseThrow(() -> new IllegalArgumentException("책 ID 가 존재하지 않습니다."));
 		book.update(request.getTitle(), request.getAuthor());
 		return book.from();
