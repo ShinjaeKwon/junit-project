@@ -29,11 +29,7 @@ public class BookApiController {
 	public ResponseEntity<?> saveBook(@RequestBody @Valid BookSaveRequest request, BindingResult bindingResult) {
 
 		if (bindingResult.hasErrors()) {
-			return new ResponseEntity<>(Response.builder()
-				.resultCode("error")
-				.message(getErrors(bindingResult).toString())
-				.body(request)
-				.build(), HttpStatus.BAD_REQUEST);
+			throw new RuntimeException(getErrors(bindingResult).toString());
 		}
 		return new ResponseEntity<>(Response.builder()
 			.resultCode("success")
