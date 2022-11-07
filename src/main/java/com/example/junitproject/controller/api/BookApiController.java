@@ -31,7 +31,6 @@ public class BookApiController {
 		if (bindingResult.hasErrors()) {
 			throw new RuntimeException(getErrors(bindingResult).toString());
 		}
-
 		return new ResponseEntity<>(getSuccessResponse("글 저장 성공", bookService.registerBook(request)),
 			HttpStatus.CREATED);
 	}
