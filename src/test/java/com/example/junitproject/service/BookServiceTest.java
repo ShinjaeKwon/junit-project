@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.junitproject.controller.dto.request.BookSaveRequest;
 import com.example.junitproject.controller.dto.request.BookUpdateRequest;
+import com.example.junitproject.controller.dto.response.BookListResponse;
 import com.example.junitproject.controller.dto.response.BookResponse;
 import com.example.junitproject.domain.Book;
 import com.example.junitproject.repository.BookRepository;
@@ -62,13 +63,13 @@ public class BookServiceTest {
 		Mockito.when(bookRepository.findAll()).thenReturn(books);
 
 		//when
-		List<BookResponse> bookResponseList = bookService.getBookList();
+		BookListResponse bookListResponse = bookService.getBookList();
 
 		//then
-		Assertions.assertThat(bookResponseList.get(0).getTitle()).isEqualTo("junit");
-		Assertions.assertThat(bookResponseList.get(0).getAuthor()).isEqualTo("sjk");
-		Assertions.assertThat(bookResponseList.get(1).getTitle()).isEqualTo("spring");
-		Assertions.assertThat(bookResponseList.get(1).getAuthor()).isEqualTo("shin");
+		Assertions.assertThat(bookListResponse.getItems().get(0).getTitle()).isEqualTo("junit");
+		Assertions.assertThat(bookListResponse.getItems().get(0).getAuthor()).isEqualTo("sjk");
+		Assertions.assertThat(bookListResponse.getItems().get(1).getTitle()).isEqualTo("spring");
+		Assertions.assertThat(bookListResponse.getItems().get(1).getAuthor()).isEqualTo("shin");
 	}
 
 	@DisplayName("책 한건 보기 테스트")

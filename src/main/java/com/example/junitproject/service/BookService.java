@@ -1,6 +1,5 @@
 package com.example.junitproject.service;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -8,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.junitproject.controller.dto.request.BookSaveRequest;
 import com.example.junitproject.controller.dto.request.BookUpdateRequest;
+import com.example.junitproject.controller.dto.response.BookListResponse;
 import com.example.junitproject.controller.dto.response.BookResponse;
 import com.example.junitproject.domain.Book;
 import com.example.junitproject.repository.BookRepository;
@@ -33,10 +33,10 @@ public class BookService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<BookResponse> getBookList() {
-		return bookRepository.findAll().stream()
+	public BookListResponse getBookList() {
+		return BookListResponse.of(bookRepository.findAll().stream()
 			.map(Book::from)
-			.collect(Collectors.toList());
+			.collect(Collectors.toList()));
 	}
 
 	@Transactional(readOnly = true)
