@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +39,12 @@ public class BookApiController {
 	@GetMapping("/api/v1/books")
 	public ResponseEntity<?> getBookList() {
 		return new ResponseEntity<>(getSuccessResponse("책 목록 불러오기 성공", bookService.getBookList()),
+			HttpStatus.OK);
+	}
+
+	@GetMapping("/api/v1/book/{id}")
+	public ResponseEntity<?> getBookOne(@PathVariable Long id) {
+		return new ResponseEntity<>(getSuccessResponse("책 한건 불러오기 성공", bookService.getBook(id)),
 			HttpStatus.OK);
 	}
 
