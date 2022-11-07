@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
-public class BookSaveRequest {
+public class BookRequest {
 
 	@Size(min = 1, max = 50)
 	@NotBlank
@@ -23,8 +23,8 @@ public class BookSaveRequest {
 	@NotBlank
 	private String author;
 
-	public static BookSaveRequest of(String title, String author) {
-		return new BookSaveRequest(title, author);
+	public static BookRequest of(String title, String author) {
+		return new BookRequest(title, author);
 	}
 
 	public Book toEntity() {
