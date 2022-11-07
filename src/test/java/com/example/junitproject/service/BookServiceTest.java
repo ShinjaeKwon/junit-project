@@ -51,13 +51,13 @@ public class BookServiceTest {
 
 	@DisplayName("책 목록 보기 테스트")
 	@Test
-	void givenBookList_whenGetBookList_thenReturnResponseList() {
+	void givenNone_whenGetBookList_thenReturnResponseList() {
 		//given
+
+		//stub
 		List<Book> books = List.of(
 			new Book(1L, "junit", "sjk"),
 			new Book(2L, "spring", "shin"));
-
-		//stub
 		Mockito.when(bookRepository.findAll()).thenReturn(books);
 
 		//when
@@ -72,12 +72,12 @@ public class BookServiceTest {
 
 	@DisplayName("책 한건 보기 테스트")
 	@Test
-	void givenBookInfo_whenGetBook_thenReturnBookResponse() {
+	void givenBookId_whenGetBook_thenReturnBookResponse() {
 		//given
 		Long id = 1L;
-		Book book = new Book(1L, "junit", "sjk");
 
 		//stub
+		Book book = new Book(1L, "junit", "sjk");
 		Mockito.when(bookRepository.findById(id)).thenReturn(Optional.of(book));
 
 		//when
