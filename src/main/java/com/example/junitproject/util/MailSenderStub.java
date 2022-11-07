@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 // Mock
 @Component
-public class MailSenderStub implements MailSender{
+public class MailSenderStub implements MailSender {
 
 	@Override
 	public boolean send() {

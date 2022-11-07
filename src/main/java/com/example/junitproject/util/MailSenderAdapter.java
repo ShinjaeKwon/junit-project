@@ -3,7 +3,7 @@ package com.example.junitproject.util;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MailSenderAdapter implements MailSender{
+public class MailSenderAdapter implements MailSender {
 
 /*
 	private Mail mail;
