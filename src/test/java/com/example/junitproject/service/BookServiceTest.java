@@ -91,7 +91,7 @@ public class BookServiceTest {
 
 	@DisplayName("책 수정하기 테스트")
 	@Test
-	void given_when_then() {
+	void givenBookInfo_whenUpdate_thenReturnUpdatedBook() {
 		//given
 		BookRequest request = BookRequest.of("spring", "shin");
 
