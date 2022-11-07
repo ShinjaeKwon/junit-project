@@ -12,10 +12,8 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(RuntimeException.class)
 	public ResponseEntity<?> apiException(RuntimeException e) {
-		return new ResponseEntity<>(Response.builder()
-			.resultCode("error")
-			.message(e.getMessage())
-			.build(), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(
+			Response.of("error", e.getMessage()), HttpStatus.BAD_REQUEST);
 	}
 
 }
